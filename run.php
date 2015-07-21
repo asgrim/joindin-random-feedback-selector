@@ -22,10 +22,13 @@ if (null === $talkCommentsUri) {
     usage();
 }
 
-$selectedComment = reset(getTalkComments(
-    $talkCommentsUri,
-    getRandomNumber(getTalkComments($talkCommentsUri)->meta->total)
-)->comments);
+$totalCommentsCount = getTalkComments($talkCommentsUri)->meta->total;
+if (!$totalCommentsCount) {
+    echo "FAILED.\n\nThere were no comments to pick from.\n\n";
+    usage();
+}
+
+$selectedComment = reset(getTalkComments($talkCommentsUri, getRandomNumber($totalCommentsCount))->comments);
 echo " done!\n\n";
 
 echo str_repeat("-", 30) . "\n";
