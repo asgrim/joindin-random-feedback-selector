@@ -2,8 +2,6 @@
 
 require_once "vendor/autoload.php";
 
-$joindinEventsBaseUrl = 'http://api.joind.in/v2.1/events';
-
 /**
  * Print usage and die.
  */
@@ -25,45 +23,43 @@ function banner()
 }
 
 /**
- * Given an event stub, look up the event ID for the event
+ * Given an event stub, look up the "all talk comments" URI
  *
  * @param string $stub
- * @return int
+ * @return string
  */
-function getEventIdFromStub($stub)
+function getTalkCommentsUriFromStub($stub)
 {
-    global $joindinEventsBaseUrl;
+    $joindinEventsBaseUrl = 'http://api.joind.in/v2.1/events';
 
     $events = json_decode(
         (new GuzzleHttp\Client())->get(sprintf(
-            '%s?stub=%s',
+            '%s?stub=%s&verbose=yes',
             $joindinEventsBaseUrl,
             $stub
         ))->getBody()
     )->events;
 
     if (!isset($events[0])) {
-        return -1;
+        return null;
     }
 
-    return (int)str_replace($joindinEventsBaseUrl . "/", "", $events[0]->uri);
+    return $events[0]->all_talk_comments_uri;
 }
 
 /**
  * Fetch all the talk comments for an event ID. Returns an object.
  *
  * @see http://joindin.github.io/joindin-api/events.html
- * @param int $eventId
+ * @param string $talkCommentsUri
  * @param int $start
  * @return object
  */
-function getTalkComments($eventId, $start = 0)
+function getTalkComments($talkCommentsUri, $start = 0)
 {
-    global $joindinEventsBaseUrl;
     return json_decode((new GuzzleHttp\Client())->get(sprintf(
-        '%s/%d/talk_comments?start=%d&resultsperpage=1',
-        $joindinEventsBaseUrl,
-        (int)$eventId,
+        '%s?start=%d&resultsperpage=1',
+        $talkCommentsUri,
         (int)$start
     ))->getBody());
 }

@@ -16,15 +16,15 @@ if (preg_match('/[^a-zA-Z0-9-_]/', $argv[1])) {
 }
 
 echo "Finding a random comment... ";
-$eventId = getEventIdFromStub($argv[1]);
-if ($eventId <= 0) {
+$talkCommentsUri = getTalkCommentsUriFromStub($argv[1]);
+if (null === $talkCommentsUri) {
     echo "FAILED.\n\nEvent stub was not found on Joind.in.\n\n";
     usage();
 }
 
 $selectedComment = reset(getTalkComments(
-    $eventId,
-    getRandomNumber(getTalkComments($eventId)->meta->total)
+    $talkCommentsUri,
+    getRandomNumber(getTalkComments($talkCommentsUri)->meta->total)
 )->comments);
 echo " done!\n\n";
 
