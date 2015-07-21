@@ -1,0 +1,14 @@
+{
+    "name": "asgrim/joindin-random-feedback-selector",
+    "description": "A little tool that selects random feedback from an event on Joind.in",
+    "require": {
+        "guzzlehttp/guzzle": "^6.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Titcumb",
+            "email": "james@asgrim.com"
+        }
+    ]
+}
