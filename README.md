@@ -8,7 +8,7 @@ Usage:
 ```shell
 $ git clone git@github.com:asgrim/joindin-random-feedback-selector.git
 $ composer install
-$ ./run.php 3129
+$ ./run.php phpsc15
 Joind.in Random Feedback Selector -- by @asgrim
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
@@ -26,4 +26,4 @@ Exceptional talk. Really insightful and a great way to introduce Parallel PHP.
 $
 ```
 
-The only parameter to `run.php` is the event ID, which you can get from the URL on the Joind.in event.
+The only parameter to `run.php` is the event stub, which you can get from the "quicklink" URL on the Joind.in event.

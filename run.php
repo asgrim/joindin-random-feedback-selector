@@ -1,27 +1,30 @@
 #!/usr/bin/env php
 <?php
 
-require "vendor/autoload.php";
 require "functions.php";
 
 banner();
 
 if (!isset($argv[1])) {
-    echo "You must provide the event ID (an integer) as a parameter.\n\n";
+    echo "You must provide the event stub as a parameter.\n\n";
     usage();
 }
 
-$eventId = (int)$argv[1];
-
-if ($eventId <= 0) {
-    echo "The event ID must be a positive integer.\n\n";
+if (preg_match('/[^a-zA-Z0-9-_]/', $argv[1])) {
+    echo "Event stub should only have a-z, 0-9, - or _\n\n";
     usage();
 }
 
 echo "Finding a random comment... ";
-$selectedComment = reset(getEvent(
+$eventId = getEventIdFromStub($argv[1]);
+if ($eventId <= 0) {
+    echo "FAILED.\n\nEvent stub was not found on Joind.in.\n\n";
+    usage();
+}
+
+$selectedComment = reset(getTalkComments(
     $eventId,
-    getRandomNumber(getEvent($eventId)->meta->total)
+    getRandomNumber(getTalkComments($eventId)->meta->total)
 )->comments);
 echo " done!\n\n";
 
